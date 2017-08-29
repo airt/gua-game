@@ -1,13 +1,15 @@
 import { Rect, Circle } from './shapes'
-import { unimplemented } from './common'
+import { unimplemented, playground } from './common'
 
 export type Action = () => void
 
 export type GameT = {
+  fps: (v?: number) => number
   drawRect: (rect: Rect, style: string) => void
   drawCircle: (circle: Circle, style: string) => void
   registerKeyPressedAction: (key: string, action: Action) => void
-  doKeyPressedActions: () => void
+  executeKeyPressedActions: () => void
+  listenKeyPressing: () => void
   mutate: () => void
   clear: () => void
   draw: () => void
@@ -15,7 +17,6 @@ export type GameT = {
   start: () => void
   pause: () => void
   pauseOrStart: () => void
-  listen: () => void
 }
 
 export const Game = () => {
@@ -30,11 +31,15 @@ export const Game = () => {
       pressed: {} as { [key: string]: boolean },
     },
     paused: true,
+    fps: 100,
   }
 
-  const canvas = document.querySelector('canvas#playground') as HTMLCanvasElement
+  const context = playground.getContext('2d') as CanvasRenderingContext2D
 
-  const context = canvas.getContext('2d') as CanvasRenderingContext2D
+  self.fps = v => {
+    if (v) states.fps = v
+    return states.fps
+  }
 
   self.drawRect = (rect, style = '') => {
     context.fillStyle = style
@@ -54,24 +59,29 @@ export const Game = () => {
     states.actions.pressed[key] = action
   }
 
-  self.doKeyPressedActions = () => {
+  self.executeKeyPressedActions = () => {
     Object.entries(states.actions.pressed).forEach(([key, action]) => {
       if (states.keys.pressed[key]) action()
     })
   }
 
+  self.listenKeyPressing = () => {
+    window.addEventListener('keydown', event => states.keys.pressed[event.key] = true)
+    window.addEventListener('keyup', event => states.keys.pressed[event.key] = false)
+  }
+
   self.mutate = unimplemented('game.mutate')
 
-  self.clear = () => context.clearRect(0, 0, canvas.width, canvas.height)
+  self.clear = () => context.clearRect(0, 0, playground.width, playground.height)
 
   self.draw = unimplemented('game.draw')
 
   self.loop = () => {
-    self.doKeyPressedActions()
+    self.executeKeyPressedActions()
     self.mutate()
     self.clear()
     self.draw()
-    if (!states.paused) setTimeout(self.loop, 1000 / 100)
+    if (!states.paused) setTimeout(self.loop, 1000 / states.fps)
   }
 
   self.start = () => {
@@ -86,11 +96,6 @@ export const Game = () => {
   self.pauseOrStart = () => {
     if (states.paused) self.start()
     else self.pause()
-  }
-
-  self.listen = () => {
-    window.addEventListener('keydown', event => states.keys.pressed[event.key] = true)
-    window.addEventListener('keyup', event => states.keys.pressed[event.key] = false)
   }
 
   return self

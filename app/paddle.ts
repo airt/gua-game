@@ -1,4 +1,5 @@
 import { Rect } from './shapes'
+import { playground } from './common'
 
 export type PaddleT = {
   rect: () => Rect
@@ -22,11 +23,11 @@ export const Paddle = () => {
   self.rect = () => states.rect
 
   self.moveLeft = () => {
-    states.rect.x -= states.speed
+    states.rect.x = Math.max(states.rect.x - states.speed, 1 - states.rect.w)
   }
 
   self.moveRight = () => {
-    states.rect.x += states.speed
+    states.rect.x = Math.min(states.rect.x + states.speed, playground.width - 1)
   }
 
   return self
