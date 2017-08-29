@@ -3,18 +3,21 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <title>gua game</title>
+  <meta charset="utf-8" />
+  <title>gua-game</title>
+  <link rel="stylesheet" href="app/main.css">
+  <script src="https://unpkg.com/systemjs/dist/system.src.js"></script>
+  <!-- <script src="node_modules/systemjs/dist/system.src.js"></script> -->
+  <script src="system.config.js"></script>
+  <script>
+    System.import('index.ts')
+  </script>
 </head>
 
 <body>
   <canvas id="playground" width="400" height="300"></canvas>
-  <style media="screen">
-    canvas#playground {
-      border: 1px black solid;
-    }
-  </style>
-  <script src="index.js"></script>
+  <hr/>
+  <input id="input-speed" type="range" value="1" />
 </body>
 
 </html>

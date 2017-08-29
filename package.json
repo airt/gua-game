@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "gua-game",
+  "version": "0.0.0",
+  "description": "",
+  "license": "MIT",
+  "author": "airt <airtial@gmail.com>",
+  "dependencies": {
+    "plugin-typescript": "^7.0.0",
+    "systemjs": "^0.20.0",
+    "typescript": "^2.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {}
+}
