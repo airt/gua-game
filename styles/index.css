@@ -1,0 +1,52 @@
+body {
+  margin: 0px;
+}
+
+canvas#playground {
+  outline: 1px solid black;
+}
+
+.playground-container {
+  margin: 0px;
+  padding: 10px;
+}
+
+.vertical-rule {
+  margin: 9px;
+  padding: 0px;
+  border-width: 0px 1px;
+  position: absolute;
+  left: 415px;
+  top: 0px;
+  height: 302px;
+}
+
+.sidebar {
+  margin: 0px;
+  padding: 10px;
+  position: absolute;
+  left: 430px;
+  top: 0px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 190px;
+}
+
+table, th, td {
+  border: 1px solid;
+  padding: 5px;
+}
+
+table.instructions tr {
+  text-align: center;
+}
+
+.fps-container {
+  margin-top: 15px;
+}
+
+.fps-container input {
+  vertical-align: middle;
+}

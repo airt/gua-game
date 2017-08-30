@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <title>gua-game</title>
-  <link rel="stylesheet" href="app/main.css">
+  <link rel="stylesheet" href="styles/index.css">
   <script src="https://unpkg.com/systemjs/dist/system.src.js"></script>
   <!-- <script src="node_modules/systemjs/dist/system.src.js"></script> -->
   <script src="system.config.js"></script>
@@ -15,9 +15,40 @@
 </head>
 
 <body>
-  <canvas id="playground" width="400" height="300"></canvas>
-  <br/>
-  <input id="fps" type="range" value="50" />
+  <div id="app">
+    <div class="playground-container">
+      <canvas id="playground" width="400" height="300"></canvas>
+    </div>
+    <hr class="vertical-rule" />
+    <div class="sidebar">
+      <table class="instructions">
+        <tr>
+          <th>key</th>
+          <th>action</th>
+        </tr>
+        <tr>
+          <td>a</td>
+          <td>←</td>
+        </tr>
+        <tr>
+          <td>d</td>
+          <td>→</td>
+        </tr>
+        <tr>
+          <td>f</td>
+          <td>start or pause</td>
+        </tr>
+        <tr>
+          <td>1 - 9</td>
+          <td>select level</td>
+        </tr>
+      </table>
+      <div class="fps-container">
+        <label for="fps">speed</label>
+        <input id="fps" type="range" value="50" />
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>
