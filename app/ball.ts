@@ -2,10 +2,10 @@ import { Rect, Circle } from './shapes'
 import { playground, inRect } from './common'
 
 type Direction = {
-  // ← | →
-  x?: -1 | 1
-  // ↑ | ↓
-  y?: -1 | 1
+  //  ← | →
+  x: -1 | 1
+  //  ↑ | ↓
+  y: -1 | 1
 }
 
 export type BallT = {
@@ -27,14 +27,18 @@ export const Ball = () => {
       x: 3,
       y: 3,
     },
+    direction: {
+      x: 1,
+      y: 1,
+    } as Direction,
   }
 
   self.circle = () => states.circle
 
-  const touch = (rect: Rect) => {
+  const touch = (rect: Rect): Partial<Direction> => {
     const circle = states.circle
 
-    const drs: Array<[Direction, Rect]> = [
+    const drs: Array<[Partial<Direction>, Rect]> = [
       [{ x: -1 }, {
         x: rect.x - circle.r,
         y: rect.y,
@@ -72,17 +76,20 @@ export const Ball = () => {
 
   self.bounce = (rect) => {
     const d = touch(rect)
-    if (d.x) states.speeds.x = d.x * Math.abs(states.speeds.x)
-    if (d.y) states.speeds.y = d.y * Math.abs(states.speeds.y)
+    if (d.x) states.direction.x = d.x
+    if (d.y) states.direction.y = d.y
     return Boolean(d.x) || Boolean(d.y)
   }
 
   self.move = () => {
     const circle = states.circle
-    if (circle.x < 0 + circle.r || playground.width - circle.r < circle.x) states.speeds.x *= -1
-    if (circle.y < 0 + circle.r || playground.height - circle.r < circle.y) states.speeds.y *= -1
-    circle.x += states.speeds.x
-    circle.y += states.speeds.y
+    const { width: w, height: h } = playground
+    if (circle.x < 0 + circle.r) states.direction.x = 1
+    if (w - circle.r < circle.x) states.direction.x = -1
+    if (circle.y < 0 + circle.r) states.direction.y = 1
+    if (h - circle.r < circle.y) states.direction.y = -1
+    circle.x += states.speeds.x * states.direction.x
+    circle.y += states.speeds.y * states.direction.y
   }
 
   return self
