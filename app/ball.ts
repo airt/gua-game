@@ -1,10 +1,16 @@
 import { Rect, Circle } from './shapes'
-import { playground } from './common'
+import { playground, inRect } from './common'
+
+type Direction = {
+  // ← | →
+  x?: -1 | 1
+  // ↑ | ↓
+  y?: -1 | 1
+}
 
 export type BallT = {
   circle: () => Circle
-  bounceY: () => void
-  collide: (rect: Rect) => boolean
+  bounce: (rect: Rect) => boolean
   move: () => void
 }
 
@@ -25,14 +31,50 @@ export const Ball = () => {
 
   self.circle = () => states.circle
 
-  self.bounceY = () => states.speeds.y *= -1
-
-  self.collide = (rect) => {
+  const touch = (rect: Rect) => {
     const circle = states.circle
-    return (
-      rect.x - circle.r <= circle.x && circle.x <= rect.x + rect.w + circle.r &&
-      rect.y - circle.r <= circle.y && circle.y <= rect.y + rect.h + circle.r
-    )
+
+    const drs: Array<[Direction, Rect]> = [
+      [{ x: -1 }, {
+        x: rect.x - circle.r,
+        y: rect.y,
+        w: circle.r,
+        h: rect.h,
+      }],
+      [{ x: 1 }, {
+        x: rect.x + rect.w,
+        y: rect.y,
+        w: circle.r,
+        h: rect.h,
+      }],
+      [{ y: -1 }, {
+        x: rect.x - circle.r,
+        y: rect.y - circle.r,
+        w: rect.w + 2 * circle.r,
+        h: rect.h / 2 + circle.r,
+      }],
+      [{ y: 1 }, {
+        x: rect.x - circle.r,
+        y: rect.y + rect.h / 2,
+        w: rect.w + 2 * circle.r,
+        h: rect.h / 2 + circle.r,
+      }],
+    ]
+
+    const point = { x: circle.x, y: circle.y }
+
+    for (const [d, r] of drs) {
+      if (inRect(point, r)) return d
+    }
+
+    return {}
+  }
+
+  self.bounce = (rect) => {
+    const d = touch(rect)
+    if (d.x) states.speeds.x = d.x * Math.abs(states.speeds.x)
+    if (d.y) states.speeds.y = d.y * Math.abs(states.speeds.y)
+    return Boolean(d.x) || Boolean(d.y)
   }
 
   self.move = () => {

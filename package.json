@@ -10,6 +10,11 @@
     "systemjs": "^0.20.0",
     "typescript": "^2.0.0"
   },
-  "devDependencies": {},
-  "scripts": {}
+  "devDependencies": {
+    "tslint": "^5.0.0",
+    "tslint-config-standard": "^6.0.0"
+  },
+  "scripts": {
+    "lint": "tslint -p tsconfig.json --type-check 'app/**/*.ts'"
+  }
 }

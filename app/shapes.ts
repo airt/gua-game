@@ -10,3 +10,8 @@ export type Circle = {
   y: number
   r: number
 }
+
+export type Point = {
+  x: number
+  y: number
+}

@@ -1,9 +1,9 @@
-import { Block, BlockT, BlockInitialParamT } from './block'
+import { Block, BlockT, BlockInitialT } from './block'
 
 export const loadLevel = (n: number): Array<BlockT> | undefined =>
   levels[n - 1] && levels[n - 1].map(Block)
 
-export const levels: Array<Array<BlockInitialParamT>> = [
+const levels: Array<Array<BlockInitialT>> = [
   [
     { rect: { x: 100 } },
   ],

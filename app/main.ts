@@ -13,14 +13,9 @@ export default () => {
   let blocks = loadLevel(1) || []
 
   game.mutate = () => {
-    if (ball.collide(paddle.rect())) {
-      ball.bounceY()
-    }
+    ball.bounce(paddle.rect())
     blocks.filter(block => block.alive()).forEach(block => {
-      if (ball.collide(block.rect())) {
-        block.hit()
-        ball.bounceY()
-      }
+      if (ball.bounce(block.rect())) block.hit()
     })
     ball.move()
   }

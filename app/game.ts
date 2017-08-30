@@ -8,14 +8,9 @@ export type GameT = {
   drawRect: (rect: Rect, style: string) => void
   drawCircle: (circle: Circle, style: string) => void
   registerKeyPressedAction: (key: string, action: Action) => void
-  executeKeyPressedActions: () => void
   listenKeyPressing: () => void
   mutate: () => void
-  clear: () => void
   draw: () => void
-  loop: () => void
-  start: () => void
-  pause: () => void
   pauseOrStart: () => void
 }
 
@@ -59,7 +54,7 @@ export const Game = () => {
     states.actions.pressed[key] = action
   }
 
-  self.executeKeyPressedActions = () => {
+  const executeKeyPressedActions = () => {
     Object.entries(states.actions.pressed).forEach(([key, action]) => {
       if (states.keys.pressed[key]) action()
     })
@@ -72,30 +67,30 @@ export const Game = () => {
 
   self.mutate = unimplemented('game.mutate')
 
-  self.clear = () => context.clearRect(0, 0, playground.width, playground.height)
+  const clear = () => context.clearRect(0, 0, playground.width, playground.height)
 
   self.draw = unimplemented('game.draw')
 
-  self.loop = () => {
-    self.executeKeyPressedActions()
+  const loop = () => {
+    executeKeyPressedActions()
     self.mutate()
-    self.clear()
+    clear()
     self.draw()
-    if (!states.paused) setTimeout(self.loop, 1000 / states.fps)
+    if (!states.paused) setTimeout(loop, 1000 / states.fps)
   }
 
-  self.start = () => {
+  const start = () => {
     states.paused = false
-    self.loop()
+    loop()
   }
 
-  self.pause = () => {
+  const pause = () => {
     states.paused = true
   }
 
   self.pauseOrStart = () => {
-    if (states.paused) self.start()
-    else self.pause()
+    if (states.paused) start()
+    else pause()
   }
 
   return self

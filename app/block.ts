@@ -6,9 +6,9 @@ export type BlockT = {
   hit: () => void
 }
 
-export type BlockInitialParamT = Partial<{ rect: Partial<Rect>, hp: number }>
+export type BlockInitialT = Partial<{ rect: Partial<Rect>, hp: number }>
 
-export const Block = (initial: BlockInitialParamT) => {
+export const Block = (initial: BlockInitialT) => {
   const self = {} as BlockT
 
   const states = {
