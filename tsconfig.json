@@ -1,11 +1,8 @@
 {
-  "compileOnSave": false,
   "compilerOptions": {
-    "target": "es2017",
+    "target": "esnext",
     "module": "system",
-    "pretty": true,
     "strict": true,
-    "sourceMap": true,
-    "lib": ["dom", "esnext"]
+    "lib": ["esnext", "dom"]
   }
 }
