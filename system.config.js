@@ -6,7 +6,6 @@ System.config({
   },
   paths: {
     'npm:': 'https://unpkg.com/',
-    // 'npm:': 'node_modules/',
   },
   map: {
     app: 'app',

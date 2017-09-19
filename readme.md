@@ -1,7 +1,8 @@
-# gua-game
+# pinball-game
 
-[play online](https://airt.github.io/gua-game/)
+[play online](https://aqua-genius.github.io/pinball-game/)
 
 ## references
 
-[videos by @guaxiao](https://space.bilibili.com/39066904#!/video)
+- [canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
+- [systemjs](https://github.com/systemjs/systemjs)
